@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 
@@ -42,9 +43,9 @@ public class Usuario {
 	 * @param login login do usuario, único e obrigatório.
 	 * @param senha senha do usuario, obrigatória.
 	 */
-	public Usuario(String login, String senha) {
+	public Usuario(String login, String senha, PasswordEncoder encoder) {
 		this.login = login;
-		this.senha = senha;
+		this.senha = encoder.encode(senha);
 	}
 
 	public Long getId() {

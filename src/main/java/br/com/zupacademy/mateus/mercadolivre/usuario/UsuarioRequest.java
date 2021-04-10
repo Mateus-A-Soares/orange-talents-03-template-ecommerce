@@ -4,6 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 /**
  * 
@@ -42,10 +44,11 @@ public class UsuarioRequest {
 	
 	/**
 	 * Transforma o objeto UsuarioRequest em um objeto Usuario.
+	 * @param passwordEncoder 
 	 * 
 	 * @return objeto Usuario populado com os dados desse objeto.
 	 */
-	public Usuario toModel() {
-		return new Usuario(login, senha);
+	public Usuario toModel(PasswordEncoder passwordEncoder) {
+		return new Usuario(login, senha, passwordEncoder);
 	}
 }
