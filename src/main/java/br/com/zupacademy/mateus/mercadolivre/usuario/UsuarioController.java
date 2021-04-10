@@ -3,6 +3,7 @@ package br.com.zupacademy.mateus.mercadolivre.usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class UsuarioController {
 	 */
 	@PostMapping
 	@Transactional
-	public String cadastra(@RequestBody UsuarioRequest request) {
+	public String cadastra(@RequestBody @Valid UsuarioRequest request) {
 		Usuario usuario = request.toModel();
 		manager.persist(usuario);
 		return usuario.toString();

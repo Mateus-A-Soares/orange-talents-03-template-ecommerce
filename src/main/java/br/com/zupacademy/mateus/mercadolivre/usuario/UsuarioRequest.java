@@ -18,7 +18,7 @@ public class UsuarioRequest {
 	private String login;
 	
 	@NotBlank
-	@Size(max = 6)
+	@Size(min = 6, message = "Tamanho mínimo de seis caracteres")
 	private String senha;
 
 	/**
