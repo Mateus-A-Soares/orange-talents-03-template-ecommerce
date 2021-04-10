@@ -44,8 +44,8 @@ public class UsuarioRequest {
 	
 	/**
 	 * Transforma o objeto UsuarioRequest em um objeto Usuario.
-	 * @param passwordEncoder 
 	 * 
+	 * @param passwordEncoder Encoder que realizará a criptografia da senha do usuário;
 	 * @return objeto Usuario populado com os dados desse objeto.
 	 */
 	public Usuario toModel(PasswordEncoder passwordEncoder) {

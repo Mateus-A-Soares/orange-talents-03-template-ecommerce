@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,16 +30,16 @@ public class UsuarioController {
 	private PasswordEncoder passwordEncoder;
 	
 	/**
-	 * End-point de URL /usuarios que realiza o cadastro do registro de um usuário.
+	 * End-point de URL /usuarios que realiza a validação e o cadastro do registro de um usuário.
 	 * 
 	 * @param request usuário a ser cadastrado.
-	 * @return ResponseEntity representando o status HTTP 200 ou 500.
+	 * @return ResponseEntity representando o status HTTP 200, 400 ou 500.
 	 */
 	@PostMapping
 	@Transactional
-	public String cadastra(@RequestBody @Valid UsuarioRequest request) {
+	public ResponseEntity<?> cadastra(@RequestBody @Valid UsuarioRequest request) {
 		Usuario usuario = request.toModel(passwordEncoder);
 		manager.persist(usuario);
-		return usuario.toString();
+		return ResponseEntity.ok().build();
 	}
 }

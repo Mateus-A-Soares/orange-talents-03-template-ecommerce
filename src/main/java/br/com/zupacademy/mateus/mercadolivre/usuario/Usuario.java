@@ -40,8 +40,9 @@ public class Usuario {
 	/**
 	 * Construtor que instância um objeto Usuário
 	 * 
-	 * @param login login do usuario, único e obrigatório.
-	 * @param senha senha do usuario, obrigatória.
+	 * @param login login do usuario, único e obrigatório;
+	 * @param senha senha do usuario, obrigatória;
+	 * @param encoder encoder utilizado para criptografar a senha.
 	 */
 	public Usuario(String login, String senha, PasswordEncoder encoder) {
 		this.login = login;
@@ -62,10 +63,5 @@ public class Usuario {
 
 	public String getSenha() {
 		return senha;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", cadastro=" + cadastro + ", login=" + login + ", senha=" + senha + "]";
 	}
 }
