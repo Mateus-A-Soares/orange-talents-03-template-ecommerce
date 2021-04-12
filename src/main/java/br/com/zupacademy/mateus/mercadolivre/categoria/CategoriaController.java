@@ -32,9 +32,9 @@ public class CategoriaController {
 	 */
 	@PostMapping
 	@Transactional
-	public String cadastra(@RequestBody @Valid CategoriaRequest request) {
+	public ResponseEntity<CategoriaResponse> cadastra(@RequestBody @Valid CategoriaRequest request) {
 		Categoria categoria = request.toModel(manager);
 		manager.persist(categoria);
-		return categoria.toString();
+		return ResponseEntity.ok(new CategoriaResponse(categoria));
 	}
 }

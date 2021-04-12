@@ -2,6 +2,7 @@ package br.com.zupacademy.mateus.mercadolivre.categoria;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Categoria {
 	@Column(nullable = false, unique = true)
 	private String nome;
 	
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	private Categoria categoriaMae;
 
 	/**
@@ -62,10 +63,5 @@ public class Categoria {
 
 	public Categoria getCategoriaMae() {
 		return categoriaMae;
-	}
-
-	@Override
-	public String toString() {
-		return "Categoria [id=" + id + ", nome=" + nome + ", categoriaMae=" + categoriaMae + "]";
 	}
 }
