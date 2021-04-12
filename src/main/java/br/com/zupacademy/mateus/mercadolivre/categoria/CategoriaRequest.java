@@ -3,6 +3,8 @@ package br.com.zupacademy.mateus.mercadolivre.categoria;
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
 
+import br.com.zupacademy.mateus.mercadolivre.validation.constraints.ExistsOneCategoria;
+
 /**
  * 
  * Classe modelo que representa os dados nas requests de cadastro de categorias
@@ -13,6 +15,7 @@ public class CategoriaRequest {
 	
 	@NotBlank
 	public String nome;
+	@ExistsOneCategoria
 	public Long categoriaMaeId;
 	
 	/**
