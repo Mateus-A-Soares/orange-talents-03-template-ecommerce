@@ -6,8 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.zupacademy.mateus.mercadolivre.validation.constraints.UsuarioEmailUnique;
-
+import br.com.zupacademy.mateus.mercadolivre.validation.constraints.Unique;
 
 /**
  * 
@@ -19,7 +18,7 @@ public class UsuarioRequest {
 	
 	@NotBlank
 	@Email
-	@UsuarioEmailUnique
+	@Unique(entityClass = Usuario.class, fieldName = "login", message = "Endereço de email já cadastrado")
 	private String login;
 	
 	@NotBlank
