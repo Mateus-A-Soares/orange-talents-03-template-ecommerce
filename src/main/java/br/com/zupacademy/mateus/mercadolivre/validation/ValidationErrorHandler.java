@@ -1,10 +1,7 @@
 package br.com.zupacademy.mateus.mercadolivre.validation;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -16,6 +13,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
 
 /**
  * Handler que captura exceptions lançadas durante a execução dos end-points e modifica a resposta.
@@ -30,21 +29,24 @@ public class ValidationErrorHandler {
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BindException.class)
-	public Map<String, String> handle(BindingResult br) {
-		Map<String, String> validationErrorsList = new HashMap<String, String>();
+	public FormErrorListMessageDto handle(BindingResult br, WebRequest request) {
+		List<FormErrorMessageDto> errors = new ArrayList<>();
 		List<FieldError> bindingResultFieldErrors = br.getFieldErrors();
 		bindingResultFieldErrors.forEach(error -> {
 			String message = messageSource.getMessage(error, LocaleContextHolder.getLocale());
-			validationErrorsList.put(error.getField(), message);
+			errors.add(new FormErrorMessageDto(error.getField(), message));
 		});
-		return validationErrorsList;
+		String path = ((ServletWebRequest)request).getRequest().getRequestURI().toString();
+		FormErrorListMessageDto message = new FormErrorListMessageDto(HttpStatus.BAD_REQUEST, path, errors);
+		return message;
 	}
 	
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
-	public Entry<String, String>  handle(Exception exception) {
+	public DefaultErrorMessageDto  handle(Exception exception, WebRequest request) {
 		String errorMessage = messageSource.getMessage("InternalServerError", null, "500", null);
-		Entry<String, String> error = new SimpleEntry<String, String>("error", errorMessage);
-		return error;
+		String path = ((ServletWebRequest)request).getRequest().getRequestURI().toString();
+		DefaultErrorMessageDto message = new DefaultErrorMessageDto(HttpStatus.INTERNAL_SERVER_ERROR, errorMessage, path);
+		return message;
 	}
 }

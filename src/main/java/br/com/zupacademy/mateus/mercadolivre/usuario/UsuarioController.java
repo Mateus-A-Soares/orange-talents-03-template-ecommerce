@@ -34,6 +34,7 @@ public class UsuarioController {
 	 * 
 	 * @param request usuário a ser cadastrado.
 	 * @return ResponseEntity representando o status HTTP 200, 400 ou 500.
+	 * @throws Exception 
 	 */
 	@PostMapping
 	@Transactional

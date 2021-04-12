@@ -7,6 +7,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import br.com.zupacademy.mateus.mercadolivre.validation.constraints.UsuarioEmailUnique;
 
+/**
+ * Implementação do validator que executa a validação de unicidade de email da entidade usuário.
+ * 
+ * @author Mateus Soares
+ */
 public class UsuarioEmailUniqueValidator implements ConstraintValidator<UsuarioEmailUnique, String> {
 
 	@PersistenceContext
@@ -14,8 +19,8 @@ public class UsuarioEmailUniqueValidator implements ConstraintValidator<UsuarioE
 	
 	@Override
 	public boolean isValid(String login, ConstraintValidatorContext context) {
-		Query query = manager.createQuery("SELECT 1 FROM Usuario u WHERE u.login = :login");
-		query.setParameter("login", login);
+		Query query = manager.createQuery("SELECT 1 FROM Usuario u WHERE u.login = :login")
+							.setParameter("login", login);
 		return query.getResultList().isEmpty();
 	}
 }

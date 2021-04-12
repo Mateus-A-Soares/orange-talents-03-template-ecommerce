@@ -11,6 +11,11 @@ import javax.validation.Payload;
 
 import br.com.zupacademy.mateus.mercadolivre.validation.validator.UsuarioEmailUniqueValidator;
 
+/**
+ *  Anotação utilizada na classe UsuarioRequest, para indicar que necessita validação de unicidade do campo email.
+ *  
+ * @author Mateus Soares
+ */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsuarioEmailUniqueValidator.class)
