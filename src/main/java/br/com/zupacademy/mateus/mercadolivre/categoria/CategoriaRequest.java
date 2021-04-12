@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
-import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 import br.com.zupacademy.mateus.mercadolivre.validation.constraints.ExistsOneCategoria;
 import br.com.zupacademy.mateus.mercadolivre.validation.constraints.Unique;
 

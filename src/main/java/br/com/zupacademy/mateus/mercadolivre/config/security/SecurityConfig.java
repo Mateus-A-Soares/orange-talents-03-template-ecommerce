@@ -1,5 +1,9 @@
-package br.com.zupacademy.mateus.mercadolivre.config;
+package br.com.zupacademy.mateus.mercadolivre.config.security;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Classe que define as configurações relacionadas ao processo de autenticação na aplicação.
@@ -18,6 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	@Autowired
+	private TokenManager tokenManager;
 	 
 	/**
 	 * 	Bean que popula um objeto PasswordEnconder utilizado para criptografar a senha do usuário.
@@ -42,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().permitAll()
 		.and().cors()
 		.and().csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().addFilterBefore(new TokenAuthenticationFilter(tokenManager, entityManager), UsernamePasswordAuthenticationFilter.class);
 	}
 }
