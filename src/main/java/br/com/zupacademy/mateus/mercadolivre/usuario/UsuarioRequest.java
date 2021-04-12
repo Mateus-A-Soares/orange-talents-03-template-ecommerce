@@ -50,7 +50,6 @@ public class UsuarioRequest {
 	 * 
 	 * @param passwordEncoder Encoder que realizará a criptografia da senha do usuário;
 	 * @return objeto Usuario populado com os dados desse objeto.
-	 * @throws Exception 
 	 */
 	public Usuario toModel(PasswordEncoder passwordEncoder) {
 		

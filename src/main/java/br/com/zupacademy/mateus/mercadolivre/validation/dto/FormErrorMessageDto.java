@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.validation;
+package br.com.zupacademy.mateus.mercadolivre.validation.dto;
 
 public class FormErrorMessageDto {
 	

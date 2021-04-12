@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
+import br.com.zupacademy.mateus.mercadolivre.validation.dto.DefaultErrorMessageDto;
+import br.com.zupacademy.mateus.mercadolivre.validation.dto.FormErrorListMessageDto;
+import br.com.zupacademy.mateus.mercadolivre.validation.dto.FormErrorMessageDto;
+
 /**
  * Handler que captura exceptions lançadas durante a execução dos end-points e modifica a resposta.
  * 
