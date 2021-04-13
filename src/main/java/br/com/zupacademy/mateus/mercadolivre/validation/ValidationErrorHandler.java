@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -30,6 +31,15 @@ public class ValidationErrorHandler {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(AuthenticationException.class)
+	public DefaultErrorMessageDto handle(AuthenticationException exception, WebRequest request) {
+		String errorMessage = exception.getLocalizedMessage();
+		String path = ((ServletWebRequest)request).getRequest().getRequestURI().toString();
+		DefaultErrorMessageDto message = new DefaultErrorMessageDto(HttpStatus.BAD_REQUEST, errorMessage, path);
+		return message;
+	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BindException.class)

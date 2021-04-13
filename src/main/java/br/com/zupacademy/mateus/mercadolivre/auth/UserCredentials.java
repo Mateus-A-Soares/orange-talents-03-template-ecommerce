@@ -19,6 +19,7 @@ public class UserCredentials implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
+	private Long id;
 	private String login;
 	private String senha;
 	
@@ -28,8 +29,13 @@ public class UserCredentials implements UserDetails {
 	 * @param usuario usuario contendo os dados.
 	 */
 	public UserCredentials(Usuario usuario) {
+		this.id = usuario.getId();
 		this.login = usuario.getLogin();
 		this.senha = usuario.getSenha();
+	}
+	
+	public Long getId() {
+		return id;
 	}
 
 	@Override
@@ -46,7 +52,7 @@ public class UserCredentials implements UserDetails {
 	public String getUsername() {
 		return this.login;
 	}
-
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
