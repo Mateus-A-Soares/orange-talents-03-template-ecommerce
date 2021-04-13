@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
 
+/**
+ * 
+ * Classe modelo da entidade Característica.
+ * 
+ * @author Mateus Soares
+ */
 @Entity
 public class Caracteristica {
 	
@@ -33,10 +39,15 @@ public class Caracteristica {
 	@Deprecated
 	public Caracteristica() {}
 	
-	public Caracteristica(@NotBlank String nome, @NotBlank String valor, @NotNull Produto produto) {
+	/**
+	 * Construtor que instancia um objeto {@link Caracteristica}
+	 * 
+	 * @param nome	nome da característica, obrigatório;
+	 * @param valor	valor da característica, obrigatório.
+	 */
+	public Caracteristica(@NotBlank String nome, @NotBlank String valor) {
 		this.nome = nome;
 		this.valor = valor;
-		this.produto = produto;
 	}
 
 	public Long getId() {
