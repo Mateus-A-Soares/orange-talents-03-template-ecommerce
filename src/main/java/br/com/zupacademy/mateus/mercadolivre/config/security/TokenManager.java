@@ -3,7 +3,6 @@ package br.com.zupacademy.mateus.mercadolivre.config.security;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import br.com.zupacademy.mateus.mercadolivre.auth.UserCredentials;
@@ -52,20 +51,18 @@ public class TokenManager {
 	}
 
 	/**
-	 * Transforma o objeto {@link UserCredentials} anexado ao {@link Authentication}
-	 * em um token de acesso a aplicação,
+	 * Transforma o objeto {@link UserCredentials} em um token de acesso a aplicação,
 	 * 
-	 * @param authentication objeto representando a autenticação do usuário logado;
+	 * @param credentials credenciais do usuário que receberá o token de acesso;
 	 * @return token de acesso a aplicação.
 	 */
-	public String generateToken(Authentication authentication) {
-		UserCredentials loggedUser = (UserCredentials) authentication.getPrincipal();
+	public String generateToken(UserCredentials credentials) {
 		Date today = new Date();
 		Date expirationTime = new Date(today.getTime() + Long.parseLong(expiration));
 		
 		return Jwts.builder()
 				.setIssuer("API Mercado Livre")
-				.setSubject(loggedUser.getId().toString())
+				.setSubject(credentials.getId().toString())
 				.setIssuedAt(today)
 				.setExpiration(expirationTime)
 				.signWith(SignatureAlgorithm.HS256, secret)

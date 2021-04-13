@@ -18,15 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- *  Classe que define as configurações relacionadas ao processo de autenticação na aplicação 
- * enquanto o perfil ativo for "prod" ou "test".
+ * 
+ *  Classe que define as configurações relacionadas ao processo de autenticação na aplicação enquanto não tiver perfil declarado,
+ * ou o perfil "dev" estiver ativo.
  * 
  * @author Mateus Soares
  */
 @EnableWebSecurity
 @Configuration
-@Profile(value = {"prod", "test"})
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile({"default", "dev"})
+public class SecurityConfigDevProfile extends WebSecurityConfigurerAdapter {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -65,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	/**
-	 *  Configura as rotas que requerem autenticação, adicionando o filtro de autenticação {@link TokenAuthenticationFilter}
+	 *  Configura as rotas que requerem autenticação, adicionando o filtro de autenticação {@link TokenAuthenticationDevProfileFilter}
 	 *  que realizará a autenticação das requisições que requerem usuário autenticado.
 	 */
 	@Override
@@ -76,6 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new TokenAuthenticationFilter(tokenManager, entityManager), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new TokenAuthenticationDevProfileFilter(tokenManager, entityManager), UsernamePasswordAuthenticationFilter.class);
 	}
 }

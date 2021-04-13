@@ -23,7 +23,7 @@ import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
  *  
  * 	@author Mateus Soares
  */
-public class TokenAuthenticationFilter extends OncePerRequestFilter {
+public class TokenAuthenticationDevProfileFilter extends OncePerRequestFilter {
 
 	private TokenManager tokenManager;
 	private EntityManager entityManager;
@@ -34,14 +34,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	 * @param tokenManager tratará da leitura do token enviado pela requisição;
 	 * @param entityManager tratará da pesquisa pelo usuário de id igual ao que deve estar dentro do token recebido.
 	 */
-	public TokenAuthenticationFilter(TokenManager tokenManager, EntityManager entityManager) {
+	public TokenAuthenticationDevProfileFilter(TokenManager tokenManager, EntityManager entityManager) {
 		this.tokenManager = tokenManager;
 		this.entityManager = entityManager;
 	}
 
 	/**
 	 * Método sobrescrito que é invocado uma vez por requisição.
-	 * Autentica o cliente durante o processo de criação da resposta de sua requisição, somente se o token enviado for válido e formatado corretamente.
+	 * Se o token enviado for válido e formatado corretamente, autentica as credenciais do usuário no {@link SecurityContext},
+	 * se não procura pelo usuário de id 1 e autentica as suas credenciais.
 	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -51,6 +52,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		boolean isTokenValid = tokenManager.isTokenValid(token);
 		if (isTokenValid) {
 			authenticateClient(token);
+		} else {
+			Usuario defaultUser = entityManager.find(Usuario.class, 1l);
+			String defaultUserToken = tokenManager.generateToken(new UserCredentials(defaultUser));
+			authenticateClient(defaultUserToken);
 		}
 		
 		filterChain.doFilter(request, response);

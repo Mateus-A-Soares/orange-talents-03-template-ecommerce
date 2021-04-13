@@ -6,6 +6,12 @@ import javax.validation.constraints.Size;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+/**
+ * 
+ * Classe modelo que representa as credenciais do usuário passadas no processo de autenticação.
+ * 
+ * @author Mateus Soares
+ */
 public class LoginForm {
 	
 	@Email
@@ -27,6 +33,11 @@ public class LoginForm {
 		return senha;
 	}
 
+	/**
+	 * Constroi um objeto {@link UsernamePasswordAuthenticationToken} utilizado no processo de autenticação.  
+	 * 
+	 * @return {@link UsernamePasswordAuthenticationToken} populado com o login e senha desse objeto.
+	 */
 	public UsernamePasswordAuthenticationToken convert() {
 
 		return new UsernamePasswordAuthenticationToken(login, senha);
