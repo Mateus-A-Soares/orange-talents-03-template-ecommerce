@@ -1,8 +1,8 @@
 package br.com.zupacademy.mateus.mercadolivre.config.security;
 
 import java.io.IOException;
+import java.util.Optional;
 
-import javax.persistence.EntityManager;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.zupacademy.mateus.mercadolivre.auth.UserCredentials;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
+import br.com.zupacademy.mateus.mercadolivre.usuario.UsuarioRepository;
 
 /**
  * 	
@@ -26,17 +27,17 @@ import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
 	private TokenManager tokenManager;
-	private EntityManager entityManager;
+	private UsuarioRepository repository;
 
 	/**
 	 * Construtor que instância um TokenAuthenticationFilter, que estende {@link OncePerRequestFilter}.
 	 * 
 	 * @param tokenManager tratará da leitura do token enviado pela requisição;
-	 * @param entityManager tratará da pesquisa pelo usuário de id igual ao que deve estar dentro do token recebido.
+	 * @param repository tratará da pesquisa pelo usuário de id igual ao que deve estar dentro do token recebido.
 	 */
-	public TokenAuthenticationFilter(TokenManager tokenManager, EntityManager entityManager) {
+	public TokenAuthenticationFilter(TokenManager tokenManager, UsuarioRepository repository) {
 		this.tokenManager = tokenManager;
-		this.entityManager = entityManager;
+		this.repository = repository;
 	}
 
 	/**
@@ -58,10 +59,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	
 	private void authenticateClient(String token) {
 		Long usuarioId = tokenManager.getUsuarioId(token);
-		Usuario usuario = entityManager.find(Usuario.class, usuarioId);
-		UserCredentials credentials = new UserCredentials(usuario);
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(credentials, null, credentials.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Optional<Usuario> usuario = repository.findById(usuarioId);
+		if(usuario.isPresent()) {
+			UserCredentials credentials = new UserCredentials(usuario.get());
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(credentials, null, credentials.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
 	}
 
 	private String getTokenFromRequest(HttpServletRequest request) {

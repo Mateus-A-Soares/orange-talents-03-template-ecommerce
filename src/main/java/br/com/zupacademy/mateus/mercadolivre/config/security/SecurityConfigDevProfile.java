@@ -1,8 +1,5 @@
 package br.com.zupacademy.mateus.mercadolivre.config.security;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.zupacademy.mateus.mercadolivre.usuario.UsuarioRepository;
+
 /**
  * 
  *  Classe que define as configurações relacionadas ao processo de autenticação na aplicação enquanto não tiver perfil declarado,
@@ -29,8 +28,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Profile({"default", "dev"})
 public class SecurityConfigDevProfile extends WebSecurityConfigurerAdapter {
 	
-	@PersistenceContext
-	private EntityManager entityManager;
+	@Autowired
+	private UsuarioRepository repository;
 	
 	@Autowired
 	private UserDetailsServiceImp userDetailsService;
@@ -71,12 +70,14 @@ public class SecurityConfigDevProfile extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http
+		.headers().frameOptions().disable().and()
+		.authorizeRequests()
 		.antMatchers("/auth/requireeauth").authenticated()
 		.anyRequest().permitAll()
 		.and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new TokenAuthenticationDevProfileFilter(tokenManager, entityManager), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new TokenAuthenticationDevProfileFilter(tokenManager, repository), UsernamePasswordAuthenticationFilter.class);
 	}
 }
