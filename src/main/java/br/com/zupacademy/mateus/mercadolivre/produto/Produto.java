@@ -3,10 +3,12 @@ package br.com.zupacademy.mateus.mercadolivre.produto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +25,7 @@ import org.springframework.util.Assert;
 
 import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.Caracteristica;
+import br.com.zupacademy.mateus.mercadolivre.produto.imagem.ImagemUrl;
 
 /**
  * 
@@ -62,8 +65,11 @@ public class Produto {
 
 	@NotNull
 	@Size(min = 3)
-	@OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private List<Caracteristica> caracteristicas;
+	
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	private List<ImagemUrl> imagens;
 
 	@CreationTimestamp
 	@Column(nullable = false)
@@ -125,8 +131,16 @@ public class Produto {
 		return caracteristicas;
 	}
 	
+	public List<ImagemUrl> getImagens() {
+		return imagens;
+	}
+	
 	public void setCaracteristicas(List<Caracteristica> caracteristicas) {
 		this.caracteristicas = caracteristicas;
 		Assert.isTrue(this.caracteristicas.size() >= 3, "É necessário ao menos três características para o cadastro");
+	}
+	
+	public void linkImages(List<String> urls) {
+		this.imagens.addAll(urls.stream().map(urlString -> new ImagemUrl(this, urlString)).collect(Collectors.toList()));
 	}
 }

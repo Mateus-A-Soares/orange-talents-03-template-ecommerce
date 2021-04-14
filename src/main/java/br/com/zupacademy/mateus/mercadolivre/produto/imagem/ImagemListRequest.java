@@ -32,13 +32,4 @@ public class ImagemListRequest {
 	public List<MultipartFile> getImagens() {
 		return imagens;
 	}
-
-	@Override
-	public String toString() {
-		String s = "ImagemListRequest [imagens=";
-		for (MultipartFile file : imagens) {
-			s += file.getOriginalFilename() + ", ";
-		}
-		return s + "]";
-	}
 }

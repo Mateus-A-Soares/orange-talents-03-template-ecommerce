@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.mateus.mercadolivre.shared.validation.dto.DefaultErrorMessageDto;
 import br.com.zupacademy.mateus.mercadolivre.shared.validation.dto.FormErrorListMessageDto;
@@ -38,6 +40,14 @@ public class ValidationErrorHandler {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@ExceptionHandler(ResponseStatusException.class)
+	public ResponseEntity<DefaultErrorMessageDto> handle(ResponseStatusException exception, WebRequest request) {
+		String errorMessage = exception.getLocalizedMessage();
+		String path = ((ServletWebRequest)request).getRequest().getRequestURI().toString();
+		DefaultErrorMessageDto message = new DefaultErrorMessageDto(exception.getStatus(), errorMessage, path);
+		return ResponseEntity.status(exception.getStatus()).body(message);
+	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(AuthenticationException.class)

@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.Caracteristica;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.CaracteristicaRequest;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.ExistsOneCategoria;
 
 /**
  * 
@@ -37,6 +38,7 @@ public class ProdutoRequest {
 	private String descricao;
 	
 	@NotNull
+	@ExistsOneCategoria
 	private Long categoriaId;
 	
 	@NotNull
