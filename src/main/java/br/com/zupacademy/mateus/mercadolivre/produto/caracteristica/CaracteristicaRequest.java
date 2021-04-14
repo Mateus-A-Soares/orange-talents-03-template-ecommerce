@@ -2,6 +2,8 @@ package br.com.zupacademy.mateus.mercadolivre.produto.caracteristica;
 
 import javax.validation.constraints.NotBlank;
 
+import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
+
 /**
  * 
  * Classe modelo que representa os dados para a entidade característica nas requests de cadastro de produtos
@@ -32,7 +34,7 @@ public class CaracteristicaRequest {
 	 * 
 	 * @return objeto {@link Caracteristica} populado a partir dos dados desse objeto.
 	 */
-	public Caracteristica toModel() {
-		return new Caracteristica(nome, valor);
+	public Caracteristica toModel(Produto produto) {
+		return new Caracteristica(nome, valor, produto);
 	}
 }

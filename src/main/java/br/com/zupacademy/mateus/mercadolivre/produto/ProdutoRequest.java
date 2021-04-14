@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -40,6 +41,7 @@ public class ProdutoRequest {
 	
 	@NotNull
 	@Size(min = 3)
+	@Valid
 	private List<CaracteristicaRequest> caracteristicas;
 
 	/**
@@ -72,16 +74,18 @@ public class ProdutoRequest {
 	 */
 	public Produto toModel(EntityManager manager){
 		Categoria categoria = manager.find(Categoria.class, categoriaId);
-		return new Produto(nome, valor, quantidade, descricao, categoria, caracteriscaListToModel());
+		Produto produto = new Produto(nome, valor, quantidade, descricao, categoria);
+		produto.setCaracteristicas(caracteriscaListToModel(produto));
+		return produto;
 	}
 
 	/**
 	 * Transforma a lista de CaracterísticaRequest em uma lista de {@link Caracteristica}.
 	 * @return lista convertida.
 	 */
-	private List<Caracteristica> caracteriscaListToModel() {
+	private List<Caracteristica> caracteriscaListToModel(Produto produto) {
 		return caracteristicas.stream()
-				.map(caracteristica -> caracteristica.toModel())
+				.map(caracteristica -> caracteristica.toModel(produto))
 				.collect(Collectors.toList());
 	}
 }

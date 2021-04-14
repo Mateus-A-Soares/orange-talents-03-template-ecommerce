@@ -73,7 +73,7 @@ public class SecurityConfigDevProfile extends WebSecurityConfigurerAdapter {
 		http
 		.headers().frameOptions().disable().and()
 		.authorizeRequests()
-		.antMatchers("/auth/requireeauth").authenticated()
+		.antMatchers("/produtos").authenticated()
 		.anyRequest().permitAll()
 		.and().cors()
 		.and().csrf().disable()

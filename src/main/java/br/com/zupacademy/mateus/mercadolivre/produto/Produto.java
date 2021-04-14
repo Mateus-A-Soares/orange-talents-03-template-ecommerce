@@ -82,17 +82,14 @@ public class Produto {
 	 * @param descricao       descrição do produto, obrigatória e até 1000
 	 *                        caracteres;
 	 * @param categoria       categoria do produto, obrigatória;
-	 * @param caracteristicas características do produto, obrigatória e deve conter pelo menos três elementos na lista.
 	 */
 	public Produto(@NotBlank String nome, @Positive @NotNull BigDecimal valor, @PositiveOrZero @NotNull Long quantidade,
-			@Size(max = 1000) @NotBlank String descricao, @NotNull Categoria categoria,
-			@NotNull @Size(min = 3) List<Caracteristica> caracteristicas) {
+			@Size(max = 1000) @NotBlank String descricao, @NotNull Categoria categoria) {
 		this.nome = nome;
 		this.valor = valor;
 		this.quantidade = quantidade;
 		this.descricao = descricao;
 		this.categoria = categoria;
-		this.caracteristicas = caracteristicas;
 	}
 
 	public Long getId() {
@@ -125,5 +122,9 @@ public class Produto {
 
 	public List<Caracteristica> getCaracteristicas() {
 		return caracteristicas;
+	}
+	
+	public void setCaracteristicas(List<Caracteristica> caracteristicas) {
+		this.caracteristicas = caracteristicas;
 	}
 }
