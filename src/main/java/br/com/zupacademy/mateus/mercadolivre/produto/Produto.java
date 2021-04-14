@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.Caracteristica;
 import br.com.zupacademy.mateus.mercadolivre.produto.imagem.ImagemUrl;
+import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
  * 
@@ -62,6 +63,10 @@ public class Produto {
 	@NotNull
 	@ManyToOne(optional = false)
 	private Categoria categoria;
+	
+	@NotNull
+	@ManyToOne(optional = false)
+	private Usuario usuario;
 
 	@NotNull
 	@Size(min = 3)
@@ -91,12 +96,13 @@ public class Produto {
 	 * @param categoria       categoria do produto, obrigatória;
 	 */
 	public Produto(@NotBlank String nome, @Positive @NotNull BigDecimal valor, @PositiveOrZero @NotNull Long quantidade,
-			@Size(max = 1000) @NotBlank String descricao, @NotNull Categoria categoria) {
+			@Size(max = 1000) @NotBlank String descricao, @NotNull Categoria categoria, @NotNull Usuario usuario) {
 		this.nome = nome;
 		this.valor = valor;
 		this.quantidade = quantidade;
 		this.descricao = descricao;
 		this.categoria = categoria;
+		this.usuario = usuario;
 	}
 
 	public Long getId() {
@@ -121,6 +127,10 @@ public class Produto {
 
 	public Categoria getCategoria() {
 		return categoria;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 	public LocalDateTime getInstanteCadastro() {

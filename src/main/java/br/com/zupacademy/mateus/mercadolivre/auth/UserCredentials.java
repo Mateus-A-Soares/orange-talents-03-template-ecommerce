@@ -19,9 +19,7 @@ public class UserCredentials implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
-	private String login;
-	private String senha;
+	private Usuario usuario;
 	
 	/**
 	 * Instância um objeto dessa classe através dos dados encapsulados em um {@link Usuario}.
@@ -29,13 +27,11 @@ public class UserCredentials implements UserDetails {
 	 * @param usuario usuario contendo os dados.
 	 */
 	public UserCredentials(Usuario usuario) {
-		this.id = usuario.getId();
-		this.login = usuario.getLogin();
-		this.senha = usuario.getSenha();
+		this.usuario = usuario;
 	}
 	
 	public Long getId() {
-		return id;
+		return usuario.getId();
 	}
 
 	@Override
@@ -45,12 +41,12 @@ public class UserCredentials implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return this.senha;
+		return usuario.getSenha();
 	}
 
 	@Override
 	public String getUsername() {
-		return this.login;
+		return usuario.getLogin();
 	}
 	
 	@Override
@@ -71,5 +67,9 @@ public class UserCredentials implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	public Usuario toModel() {
+		return usuario;
 	}
 }

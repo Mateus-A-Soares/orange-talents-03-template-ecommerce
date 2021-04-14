@@ -27,7 +27,7 @@ public class ProdutoTest {
 	public void setup() {
 		Categoria categoria = new Categoria("Categoria");
 		usuario = new Usuario();
-		produto = new Produto("nome", new BigDecimal(10.10), 10L, "descrição", categoria);
+		produto = new Produto("nome", new BigDecimal(10.10), 10L, "descrição", categoria, usuario);
 	}
 
 	@MethodSource("getThreeOrMoreItemsList")

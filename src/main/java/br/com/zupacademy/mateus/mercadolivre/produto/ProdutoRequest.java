@@ -16,6 +16,7 @@ import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.Caracteristica;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.CaracteristicaRequest;
 import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.ExistsOneCategoria;
+import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
  * 
@@ -74,9 +75,9 @@ public class ProdutoRequest {
 	 * @param manager EntityManager utilizado para recuperar a categoria a qual o produto pertence;
 	 * @return objeto {@link Produto} populado a partir dos dados desse objeto.
 	 */
-	public Produto toModel(EntityManager manager){
+	public Produto toModel(EntityManager manager, Usuario usuario){
 		Categoria categoria = manager.find(Categoria.class, categoriaId);
-		Produto produto = new Produto(nome, valor, quantidade, descricao, categoria);
+		Produto produto = new Produto(nome, valor, quantidade, descricao, categoria, usuario);
 		produto.setCaracteristicas(caracteriscaListToModel(produto));
 		return produto;
 	}
