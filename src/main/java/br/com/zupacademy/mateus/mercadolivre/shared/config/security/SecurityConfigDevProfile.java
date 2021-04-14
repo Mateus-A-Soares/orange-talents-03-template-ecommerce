@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.config.security;
+package br.com.zupacademy.mateus.mercadolivre.shared.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,15 +17,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import br.com.zupacademy.mateus.mercadolivre.usuario.UsuarioRepository;
 
 /**
- *  Classe que define as configurações relacionadas ao processo de autenticação na aplicação 
- * enquanto o perfil ativo for "prod" ou "test".
+ * 
+ *  Classe que define as configurações relacionadas ao processo de autenticação na aplicação enquanto não tiver perfil declarado,
+ * ou o perfil "dev" estiver ativo.
  * 
  * @author Mateus Soares
  */
 @EnableWebSecurity
 @Configuration
-@Profile(value = {"prod", "test"})
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile({"default", "dev"})
+public class SecurityConfigDevProfile extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UsuarioRepository repository;
@@ -64,17 +65,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	/**
-	 *  Configura as rotas que requerem autenticação, adicionando o filtro de autenticação {@link TokenAuthenticationFilter}
+	 *  Configura as rotas que requerem autenticação, adicionando o filtro de autenticação {@link TokenAuthenticationDevProfileFilter}
 	 *  que realizará a autenticação das requisições que requerem usuário autenticado.
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http
+		.headers().frameOptions().disable().and()
+		.authorizeRequests()
 		.antMatchers("/produtos").authenticated()
 		.anyRequest().permitAll()
 		.and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new TokenAuthenticationFilter(tokenManager, repository), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new TokenAuthenticationDevProfileFilter(tokenManager, repository), UsernamePasswordAuthenticationFilter.class);
 	}
 }

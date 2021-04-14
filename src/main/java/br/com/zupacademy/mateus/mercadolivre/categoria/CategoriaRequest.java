@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
-import br.com.zupacademy.mateus.mercadolivre.validation.constraints.ExistsOneCategoria;
-import br.com.zupacademy.mateus.mercadolivre.validation.constraints.Unique;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.ExistsOneCategoria;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.Unique;
 
 /**
  * 

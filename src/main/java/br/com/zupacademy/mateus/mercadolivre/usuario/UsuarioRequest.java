@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.zupacademy.mateus.mercadolivre.validation.constraints.Unique;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.Unique;
 
 /**
  * 

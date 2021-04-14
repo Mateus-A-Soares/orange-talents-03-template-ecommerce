@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.validation.validator;
+package br.com.zupacademy.mateus.mercadolivre.shared.validation.validator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
-import br.com.zupacademy.mateus.mercadolivre.validation.constraints.ExistsOneCategoria;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.ExistsOneCategoria;
 
 /**
  * Implementação do validator que executa a validação de existência de uma categoria.

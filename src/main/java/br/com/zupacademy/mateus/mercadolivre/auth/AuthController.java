@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.zupacademy.mateus.mercadolivre.shared.config.security.TokenManager;
+
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
-
-import br.com.zupacademy.mateus.mercadolivre.config.security.TokenManager;
 
 /**
  * 

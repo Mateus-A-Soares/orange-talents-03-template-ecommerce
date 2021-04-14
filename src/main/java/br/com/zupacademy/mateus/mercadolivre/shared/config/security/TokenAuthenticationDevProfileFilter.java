@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.config.security;
+package br.com.zupacademy.mateus.mercadolivre.shared.config.security;
 
 import java.io.IOException;
 import java.util.Optional;

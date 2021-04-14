@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.validation.constraints;
+package br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import br.com.zupacademy.mateus.mercadolivre.validation.UniqueValidator;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.UniqueValidator;
 
 /**
  *  Anotação utilizada nas classes que representam entidades, nos parâmetros em que deve ocorrer validação de unicidade 

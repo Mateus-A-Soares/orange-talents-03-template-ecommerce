@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.validation.dto;
+package br.com.zupacademy.mateus.mercadolivre.shared.validation.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

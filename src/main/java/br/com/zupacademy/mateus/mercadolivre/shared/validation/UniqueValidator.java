@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.validation;
+package br.com.zupacademy.mateus.mercadolivre.shared.validation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -6,7 +6,7 @@ import javax.persistence.Query;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import br.com.zupacademy.mateus.mercadolivre.validation.constraints.Unique;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.Unique;
 
 /**
  * Implementação do validator que executa a validação de unicidade para campos de entidades JPA.

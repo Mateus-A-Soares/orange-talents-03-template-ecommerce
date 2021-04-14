@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.validation;
+package br.com.zupacademy.mateus.mercadolivre.shared.validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import br.com.zupacademy.mateus.mercadolivre.validation.dto.DefaultErrorMessageDto;
-import br.com.zupacademy.mateus.mercadolivre.validation.dto.FormErrorListMessageDto;
-import br.com.zupacademy.mateus.mercadolivre.validation.dto.FormErrorMessageDto;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.dto.DefaultErrorMessageDto;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.dto.FormErrorListMessageDto;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.dto.FormErrorMessageDto;
 
 /**
  * Handler que captura exceptions lançadas durante a execução dos end-points e modifica a resposta.
