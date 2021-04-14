@@ -19,6 +19,7 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.util.Assert;
 
 import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.Caracteristica;
@@ -126,5 +127,6 @@ public class Produto {
 	
 	public void setCaracteristicas(List<Caracteristica> caracteristicas) {
 		this.caracteristicas = caracteristicas;
+		Assert.isTrue(this.caracteristicas.size() >= 3, "É necessário ao menos três características para o cadastro");
 	}
 }
