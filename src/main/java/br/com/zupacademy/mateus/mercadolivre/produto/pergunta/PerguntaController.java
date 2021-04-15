@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zupacademy.mateus.mercadolivre.auth.UserCredentials;
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
 import br.com.zupacademy.mateus.mercadolivre.produto.ProdutoResponse;
+import br.com.zupacademy.mateus.mercadolivre.shared.email.MailSender;
 
 /**
  * 
@@ -28,6 +30,9 @@ import br.com.zupacademy.mateus.mercadolivre.produto.ProdutoResponse;
 @RestController
 @RequestMapping("/produtos/{id}/pergunta")
 public class PerguntaController {
+	
+	@Autowired
+	private MailSender mailSender;
 	
 	@PersistenceContext
 	private EntityManager manager;
@@ -50,6 +55,8 @@ public class PerguntaController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
 		Pergunta pergunta = request.toModel(manager, credentials.toModel());
 		manager.persist(pergunta);
+		String emailVendedor = produto.getUsuario().getLogin();
+		mailSender.execute(emailVendedor, "Nova pergunta: " + pergunta.getTitulo(), "Você recebeu uma nova pergunta");
 		return ResponseEntity.ok().build();
 	}
 }
