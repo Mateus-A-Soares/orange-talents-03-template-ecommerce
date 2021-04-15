@@ -73,7 +73,7 @@ public class Produto {
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private List<Caracteristica> caracteristicas;
 	
-	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<ImagemUrl> imagens;
 
 	@CreationTimestamp

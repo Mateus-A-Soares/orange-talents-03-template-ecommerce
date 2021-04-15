@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,7 @@ public class ImagemController {
 		else if (produto.getUsuario().getId() != credentials.getId())
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		List<String> urls = uploader.execute(request.getImagens());
+		Hibernate.initialize(produto.getImagens());
 		produto.linkImages(urls);
 		manager.merge(produto);
 		return ResponseEntity.ok(new ProdutoResponse(produto));
