@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
-import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.Caracteristica;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
@@ -29,7 +28,7 @@ public class Opiniao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Min(1) @Max(5)
+	@NotNull @Min(1) @Max(5)
 	private Integer nota;
 	
 	@NotBlank
