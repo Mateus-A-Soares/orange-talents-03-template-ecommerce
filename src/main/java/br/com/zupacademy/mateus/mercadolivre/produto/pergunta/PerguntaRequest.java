@@ -15,12 +15,7 @@ public class PerguntaRequest {
 	@NotBlank
 	private String titulo;
 
-	/**
-	 * Construtor que instância um objeto {@link PerguntaRequest}
-	 * 
-	 * @param titulo	título da pergunta, obrigatório;
-	 */
-	public PerguntaRequest(@NotBlank String titulo) {
+	public void setTitulo(@NotBlank String titulo) {
 		this.titulo = titulo;
 	}
 	
