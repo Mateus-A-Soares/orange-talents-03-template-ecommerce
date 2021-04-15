@@ -48,7 +48,7 @@ public class OpiniaoController {
 		Produto produto = manager.find(Produto.class, produtoId);
 		if(produto == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
-		Opiniao opiniao = request.toModel(manager, credentials.toModel());
+		Opiniao opiniao = request.toModel(credentials.toModel(), produto);
 		manager.persist(opiniao);
 		return ResponseEntity.ok().build();
 	}

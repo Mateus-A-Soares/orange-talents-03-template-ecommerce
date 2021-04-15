@@ -53,7 +53,7 @@ public class PerguntaController {
 		Produto produto = manager.find(Produto.class, produtoId);
 		if(produto == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
-		Pergunta pergunta = request.toModel(manager, credentials.toModel());
+		Pergunta pergunta = request.toModel(credentials.toModel(), produto);
 		manager.persist(pergunta);
 		String emailVendedor = produto.getUsuario().getLogin();
 		mailSender.execute(emailVendedor, "Nova pergunta: " + pergunta.getTitulo(), "Você recebeu uma nova pergunta");

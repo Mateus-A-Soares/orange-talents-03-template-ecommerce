@@ -1,6 +1,5 @@
 package br.com.zupacademy.mateus.mercadolivre.produto.opiniao;
 
-import javax.persistence.EntityManager;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -8,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
-import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.ExistsOne;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
@@ -27,10 +25,6 @@ public class OpiniaoRequest {
 	
 	@NotBlank @Size(max= 500)
 	private String descricao;
-	
-	@NotNull
-	@ExistsOne(entityTargetClass = Produto.class, fieldTargetName = "id")
-	private Long produtoId;
 
 	/**
 	 * Construtor que instância um objeto {@link OpiniaoRequest}
@@ -46,11 +40,9 @@ public class OpiniaoRequest {
 		this.nota = nota;
 		this.titulo = titulo;
 		this.descricao = descricao;
-		this.produtoId = produtoId;
 	}
 
-	public Opiniao toModel(EntityManager manager, Usuario usuario) {
-		Produto produto = manager.find(Produto.class, produtoId);
+	public Opiniao toModel(Usuario usuario, Produto produto) {
 		return new Opiniao(nota, titulo, descricao, usuario, produto);
 	}
 }
