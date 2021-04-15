@@ -46,8 +46,8 @@ public class ImagemController {
 		Produto produto = manager.find(Produto.class, produtoId);
 		if(produto == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
-		else if (produto.getUsuario().getId() == credentials.getId())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
+		else if (produto.getUsuario().getId() != credentials.getId())
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		List<String> urls = uploader.execute(request.getImagens());
 		produto.linkImages(urls);
 		manager.merge(produto);

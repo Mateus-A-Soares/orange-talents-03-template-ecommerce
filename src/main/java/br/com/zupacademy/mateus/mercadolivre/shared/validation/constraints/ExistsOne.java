@@ -8,19 +8,22 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import br.com.zupacademy.mateus.mercadolivre.shared.validation.validator.ExistsOneCategoriaValidator;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.validator.ExistsOneValidator;
 
 /**
- * 
- *  Anotação utilizada para verificar a existência da categoria relacionada ao valor do parâmetro anotado.
- * 
+ *  Anotação utilizada nas classes que representam entidades, nos parâmetros que representam chaves estrangeiras
+ *  em que deve ocorrer validação de existência na base de dados.
+ *  
  * @author Mateus Soares
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ExistsOneCategoriaValidator.class)
-public @interface ExistsOneCategoria {
-	String message() default "Id inválido";
+@Constraint(validatedBy = ExistsOneValidator.class)
+public @interface ExistsOne {
+	
+	String fieldTargetName();
+	Class<?> entityTargetClass();
+    String message() default "Registro não encontrado";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

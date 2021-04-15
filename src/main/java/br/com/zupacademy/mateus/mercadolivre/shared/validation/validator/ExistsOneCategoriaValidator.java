@@ -9,6 +9,7 @@ import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
 import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.ExistsOneCategoria;
 
 /**
+ * 
  * Implementação do validator que executa a validação de existência de uma categoria.
  * 
  * @author Mateus Soares

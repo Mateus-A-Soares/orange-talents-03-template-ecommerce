@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.ExistsOne;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
@@ -28,9 +29,7 @@ public class OpiniaoRequest {
 	private String descricao;
 	
 	@NotNull
-	private Long usuarioId;
-	
-	@NotNull
+	@ExistsOne(entityTargetClass = Produto.class, fieldTargetName = "id")
 	private Long produtoId;
 
 	/**
@@ -43,17 +42,15 @@ public class OpiniaoRequest {
 	 * @param produto	produto a qual a opinião pertence, obrigatório.
 	 */
 	public OpiniaoRequest(@NotNull @Min(1) @Max(5) Integer nota, @NotBlank String titulo,
-			@NotBlank @Size(max = 500) String descricao, @NotNull Long usuarioId, @NotNull Long produtoId) {
+			@NotBlank @Size(max = 500) String descricao, @NotNull Long produtoId) {
 		this.nota = nota;
 		this.titulo = titulo;
 		this.descricao = descricao;
-		this.usuarioId = usuarioId;
 		this.produtoId = produtoId;
 	}
 
-	public Opiniao toModel(EntityManager manager) {
-		Usuario usuario = manager.find(Usuario.class, manager);
-		Produto produto = manager.find(Produto.class, manager);
+	public Opiniao toModel(EntityManager manager, Usuario usuario) {
+		Produto produto = manager.find(Produto.class, produtoId);
 		return new Opiniao(nota, titulo, descricao, usuario, produto);
 	}
 }
