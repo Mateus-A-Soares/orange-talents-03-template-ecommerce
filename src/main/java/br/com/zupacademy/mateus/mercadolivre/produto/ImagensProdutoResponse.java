@@ -8,11 +8,11 @@ import br.com.zupacademy.mateus.mercadolivre.produto.imagem.ImagemUrlResponse;
 
 /**
  * 
- * Classe modelo que encapsula os dados a serem enviados sobre produtos pela API na rota de cadastro de imagens
+ * Classe modelo que encapsula os dados a serem enviados sobre as imagens de um produto pela API na rota de cadastro de imagens
  * 
  * @author Mateus Soares
  */
-public class ProdutoResponse {
+public class ImagensProdutoResponse {
 	
 	private Long id;
 
@@ -25,7 +25,7 @@ public class ProdutoResponse {
 	 * 
 	 * @param produto produto encapsulando os dados do registro.
 	 */
-	public ProdutoResponse(Produto produto) {
+	public ImagensProdutoResponse(Produto produto) {
 		this.id = produto.getId();
 		this.nome = produto.getNome();
 		this.imagens = imagemUrlListToModel(produto.getImagens());

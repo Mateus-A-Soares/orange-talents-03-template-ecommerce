@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.mateus.mercadolivre.auth.UserCredentials;
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
-import br.com.zupacademy.mateus.mercadolivre.produto.ProdutoResponse;
+import br.com.zupacademy.mateus.mercadolivre.produto.ImagensProdutoResponse;
 import br.com.zupacademy.mateus.mercadolivre.shared.image.ImageUpload;
 
 /**
@@ -42,7 +42,7 @@ public class ImagemController {
 
 	@PatchMapping
 	@Transactional
-	public ResponseEntity<ProdutoResponse> cadastra(@PathVariable("id") Long produtoId, @Valid ImagemListRequest request,
+	public ResponseEntity<ImagensProdutoResponse> cadastra(@PathVariable("id") Long produtoId, @Valid ImagemListRequest request,
 			@AuthenticationPrincipal UserCredentials credentials) throws BindException {
 		Produto produto = manager.find(Produto.class, produtoId);
 		if(produto == null)
@@ -53,6 +53,6 @@ public class ImagemController {
 		Hibernate.initialize(produto.getImagens());
 		produto.linkImages(urls);
 		manager.merge(produto);
-		return ResponseEntity.ok(new ProdutoResponse(produto));
+		return ResponseEntity.ok(new ImagensProdutoResponse(produto));
 	}
 }

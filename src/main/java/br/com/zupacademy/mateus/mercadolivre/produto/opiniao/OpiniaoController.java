@@ -17,7 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.mateus.mercadolivre.auth.UserCredentials;
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
-import br.com.zupacademy.mateus.mercadolivre.produto.ProdutoResponse;
 
 /**
  * 
@@ -43,7 +42,7 @@ public class OpiniaoController {
 	 */
 	@PatchMapping
 	@Transactional
-	public ResponseEntity<ProdutoResponse> cadastra(@PathVariable("id") Long produtoId, @Valid @RequestBody OpiniaoRequest request,
+	public ResponseEntity<Void> cadastra(@PathVariable("id") Long produtoId, @Valid @RequestBody OpiniaoRequest request,
 			@AuthenticationPrincipal UserCredentials credentials) {
 		Produto produto = manager.find(Produto.class, produtoId);
 		if(produto == null)

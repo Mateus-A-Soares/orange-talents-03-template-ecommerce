@@ -26,6 +26,8 @@ import org.springframework.util.Assert;
 import br.com.zupacademy.mateus.mercadolivre.categoria.Categoria;
 import br.com.zupacademy.mateus.mercadolivre.produto.caracteristica.Caracteristica;
 import br.com.zupacademy.mateus.mercadolivre.produto.imagem.ImagemUrl;
+import br.com.zupacademy.mateus.mercadolivre.produto.opiniao.Opiniao;
+import br.com.zupacademy.mateus.mercadolivre.produto.pergunta.Pergunta;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
@@ -75,6 +77,12 @@ public class Produto {
 	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<ImagemUrl> imagens;
+	
+	@OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
+	private List<Opiniao> opinioes;
+	
+	@OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
+	private List<Pergunta> perguntas;
 
 	@CreationTimestamp
 	@Column(nullable = false)
@@ -145,6 +153,14 @@ public class Produto {
 		return imagens;
 	}
 	
+	public List<Opiniao> getOpinioes() {
+		return opinioes;
+	}
+
+	public List<Pergunta> getPerguntas() {
+		return perguntas;
+	}
+
 	public void setCaracteristicas(List<Caracteristica> caracteristicas) {
 		this.caracteristicas = caracteristicas;
 		Assert.isTrue(this.caracteristicas.size() >= 3, "É necessário ao menos três características para o cadastro");
