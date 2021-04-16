@@ -71,7 +71,6 @@ public class Compra {
      */
 	public Compra(@NotNull Usuario usuario, @NotNull Produto produto, @NotNull Integer quantidade,
 			@NotNull BigDecimal valorProduto, @NotNull Gateway gateway, @NotNull CompraStatus status) {
-		super();
 		this.usuario = usuario;
 		this.produto = produto;
 		this.quantidade = quantidade;

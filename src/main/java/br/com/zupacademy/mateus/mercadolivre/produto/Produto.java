@@ -169,4 +169,9 @@ public class Produto {
 	public void linkImages(List<String> urls) {
 		this.imagens.addAll(urls.stream().map(urlString -> new ImagemUrl(this, urlString)).collect(Collectors.toList()));
 	}
+
+	public void removeFromQuantidade(Integer quantidadeComprada) {
+		Assert.isTrue(quantidadeComprada <= quantidade, "Quantidade comprada deveria ser menor que a quantidade de itens em estoque.");
+		this.quantidade -= quantidadeComprada;
+	}
 }
