@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import br.com.zupacademy.mateus.mercadolivre.compra.Compra;
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoRequest;
 import br.com.zupacademy.mateus.mercadolivre.compra.pagamento.Pagamento;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.Unique;
 
 /**
  * 
@@ -16,6 +17,7 @@ import br.com.zupacademy.mateus.mercadolivre.compra.pagamento.Pagamento;
 public class PaypalRetornoRequest implements GatewayRetornoRequest {
 	
 	@NotBlank
+	@Unique(entityClass = Pagamento.class, fieldName = "idTransacao")
 	private String id;
 	@NotNull
 	private Boolean status;

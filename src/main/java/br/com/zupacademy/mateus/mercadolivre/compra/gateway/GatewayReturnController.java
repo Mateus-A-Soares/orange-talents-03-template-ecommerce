@@ -43,12 +43,8 @@ public class GatewayReturnController {
 	@PostMapping("/pagseguro/{id}")
 	@Transactional
 	public ResponseEntity<String> retornoPagseguro(@PathVariable("id") Long compraId, @Valid @RequestBody PagseguroRetornoRequest request) throws BindException{
-		Compra compra = manager.find(Compra.class, compraId);
-		if (compra == null)
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra não encontrada");		
-		compra.addGatewayRetorno(request);
-		manager.merge(compra);
-		return ResponseEntity.ok(compra.toString());
+		processGatewayReturn(compraId, request);
+		return ResponseEntity.ok(request.getStatus().toString());
 	}
 	
 	/**
@@ -62,12 +58,16 @@ public class GatewayReturnController {
 	@PostMapping("/paypal/{id}")
 	@Transactional
 	public ResponseEntity<String> retornoPaypal(@PathVariable("id") Long compraId, @Valid @RequestBody PaypalRetornoRequest request) throws BindException{
+		processGatewayReturn(compraId, request);
+		return ResponseEntity.ok(request.getStatus().toString());
+	}
+	
+	
+	private void processGatewayReturn(Long compraId, GatewayRetornoRequest request) throws BindException {
 		Compra compra = manager.find(Compra.class, compraId);
 		if (compra == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra não encontrada");		
 		compra.addGatewayRetorno(request);
 		manager.merge(compra);
-		return ResponseEntity.ok(compra.toString());
 	}
-	
 }
