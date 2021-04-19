@@ -1,5 +1,6 @@
 package br.com.zupacademy.mateus.mercadolivre.compra;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -7,6 +8,7 @@ import org.springframework.validation.BindException;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.Gateway;
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.IsValidGateway;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
@@ -20,22 +22,23 @@ public class CompraRequest {
 	@NotNull @Positive
     private Integer quantidade;
     
-	@NotNull
-    private Gateway gateway;
+	@NotBlank
+	@IsValidGateway
+    private String gateway;
 	
 	/**
 	 * Construtor que instância um objeto {@link CompraRequest} com os dados representativos de uma compra.
 	 * 
 	 * @param quantidade	quantidade de itens que serão comprados, deve ser um valor positivo;
-	 * @param gateway		gateway utilizado para o pagamento.
+	 * @param gateway		nome do gateway utilizado para o pagamento.
 	 */
-	public CompraRequest(@NotNull @Positive Integer quantidade, @NotNull Gateway gateway) {
+	public CompraRequest(@NotNull @Positive Integer quantidade, @NotNull String gateway) {
 		this.quantidade = quantidade;
 		this.gateway = gateway;
 	}
 	
-	public Compra toModel(@NotNull Usuario usuario, @NotNull Produto produto, @NotNull CompraStatus status) throws BindException {
+	public Compra toModel(@NotNull Usuario usuario, @NotNull Produto produto, @NotBlank CompraStatus status) throws BindException {
 		
-		return new Compra(usuario, produto, quantidade, produto.getValor(), gateway, status);
+		return new Compra(usuario, produto, quantidade, produto.getValor(), Gateway.valueOf(gateway.toUpperCase()), status);
 	}
 }
