@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zupacademy.mateus.mercadolivre.auth.UserCredentials;
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayPaymentProcessorsList;
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
+import br.com.zupacademy.mateus.mercadolivre.shared.email.MailSender;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
 /**
@@ -37,6 +38,9 @@ public class CompraController {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Autowired
+	private MailSender mailSender;
 	
 	@Autowired
 	private GatewayPaymentProcessorsList gatewayPaymentProcessors;
@@ -70,6 +74,8 @@ public class CompraController {
 		}
 		manager.persist(compra);
 		URI returnUri = compra.getGateway().processesPayment(compra, gatewayPaymentProcessors, "/");
+		mailSender.execute(produto.getUsuario().getLogin(), "COMPRA DE PRODUTO",
+							usuario.getLogin() + " quer comprar " + compra.getQuantidade() + " unidades do produto " + produto.getNome());
 		return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(returnUri.toString());
