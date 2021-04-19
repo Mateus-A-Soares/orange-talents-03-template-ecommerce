@@ -79,10 +79,4 @@ public class Pagamento {
 	public boolean isSucedido() {
 		return sucedido;
 	}
-
-	@Override
-	public String toString() {
-		return "Pagamento [id=" + id + ", instante=" + instante + ", idTransacao=" + idTransacao + ", sucedido="
-				+ sucedido + "]";
-	}
 }

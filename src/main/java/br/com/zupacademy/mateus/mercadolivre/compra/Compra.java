@@ -142,11 +142,4 @@ public class Compra {
 	public boolean existePagamentoSucedido() {
 		return pagamentos.stream().anyMatch(pagamento -> pagamento.isSucedido());
 	}
-
-	@Override
-	public String toString() {
-		return "Compra [id=" + id + ", usuario=" + usuario + ", produto=" + produto + ", quantidade=" + quantidade
-				+ ", valorProduto=" + valorProduto + ", gateway=" + gateway + ", status=" + status + ", pagamentos="
-				+ pagamentos + "]";
-	}
 }
