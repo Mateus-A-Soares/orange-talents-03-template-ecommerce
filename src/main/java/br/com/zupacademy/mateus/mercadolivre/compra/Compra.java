@@ -1,19 +1,26 @@
 package br.com.zupacademy.mateus.mercadolivre.compra;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.Gateway;
+import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoRequest;
+import br.com.zupacademy.mateus.mercadolivre.compra.pagamento.Pagamento;
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
 import br.com.zupacademy.mateus.mercadolivre.usuario.Usuario;
 
@@ -31,11 +38,11 @@ public class Compra {
     private Long id;
 
 	@NotNull
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuario;
 
 	@NotNull
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Produto produto;
 	
 	@NotNull @Positive
@@ -55,13 +62,16 @@ public class Compra {
 	@Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CompraStatus status;
-
+	
+	@OneToMany(mappedBy = "compra", cascade = CascadeType.MERGE)
+	private List<Pagamento> pagamentos;
+	
     @Deprecated
     public Compra() {}
 
     /**
      * Construtor que instancia um objeto {@link Compra}
-     * 
+     *
      * @param usuario		usuário que efetuou a compra, obrigatório;
      * @param produto 		produto comprado, obrigatório;
      * @param quantidade	quantidade que vai ser comprada e abatida do estoque de produtos, positiva e obrigatória;
@@ -107,9 +117,19 @@ public class Compra {
 		return status;
 	}
 
+	public boolean addGatewayRetorno(@Valid GatewayRetornoRequest request) {
+		for (Pagamento pagamento : pagamentos) {
+			if(pagamento.isSucedido())
+				return false;
+		}
+		pagamentos.add(request.toModel(this));
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return "Compra [id=" + id + ", usuario=" + usuario + ", produto=" + produto + ", quantidade=" + quantidade
-				+ ", valorProduto=" + valorProduto + ", gateway=" + gateway + ", status=" + status + "]";
+				+ ", valorProduto=" + valorProduto + ", gateway=" + gateway + ", status=" + status + ", pagamentos="
+				+ pagamentos + "]";
 	}
 }
