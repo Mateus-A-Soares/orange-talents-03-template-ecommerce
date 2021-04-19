@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,14 +36,15 @@ public class GatewayReturnController {
 	 * 
 	 * @param compraId	id da compra realizada, presente na URL;
 	 * @return ResponseEntity representando o status HTTP 200, 400 ou 500.
+	 * @throws BindException 
 	 */
 	@PostMapping("/pagseguro/{id}")
 	@Transactional
-	public ResponseEntity<String> retornoPagseguro(@PathVariable("id") Long compraId, @Valid @RequestBody PagseguroRetornoRequest request){
+	public ResponseEntity<String> retornoPagseguro(@PathVariable("id") Long compraId, @Valid @RequestBody PagseguroRetornoRequest request) throws BindException{
 		Compra compra = manager.find(Compra.class, compraId);
 		if (compra == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra não encontrada");		
-		System.err.println(compra.addGatewayRetorno(request));
+		compra.addGatewayRetorno(request);
 		manager.merge(compra);
 		return ResponseEntity.ok(compra.toString());
 	}

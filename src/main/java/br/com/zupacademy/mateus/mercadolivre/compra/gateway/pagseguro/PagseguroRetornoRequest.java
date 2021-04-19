@@ -1,11 +1,11 @@
 package br.com.zupacademy.mateus.mercadolivre.compra.gateway.pagseguro;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.Compra;
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoRequest;
 import br.com.zupacademy.mateus.mercadolivre.compra.pagamento.Pagamento;
+import br.com.zupacademy.mateus.mercadolivre.shared.validation.constraints.IsValidPagseguroStatus;
 
 /**
  * 
@@ -17,8 +17,9 @@ public class PagseguroRetornoRequest implements GatewayRetornoRequest {
 	
 	@NotBlank
 	private String id;
-	@NotNull
-	private PagseguroRetornoStatus status;
+	@NotBlank
+	@IsValidPagseguroStatus
+	private String status;
 	
 	/**
 	 * Construtor que instância um objeto {@link PagseguroRetornoRequest},
@@ -27,7 +28,7 @@ public class PagseguroRetornoRequest implements GatewayRetornoRequest {
 	 * @param id		id da transação efetuada;
 	 * @param status	status que informa se a transação foi sucedida.
 	 */
-	public PagseguroRetornoRequest(@NotBlank String id, @NotNull PagseguroRetornoStatus status) {
+	public PagseguroRetornoRequest(@NotBlank String id, @NotBlank String status) {
 		this.id = id;
 		this.status = status;
 	}
@@ -37,13 +38,13 @@ public class PagseguroRetornoRequest implements GatewayRetornoRequest {
 	}
 	
 	public PagseguroRetornoStatus getStatus() {
-		return status;
+		return PagseguroRetornoStatus.valueOf(status.toUpperCase());
 	}
 	
 	@Override
 	public boolean isSucedida() {
 		
-		return status.equals(PagseguroRetornoStatus.SUCESSO);
+		return status.equalsIgnoreCase(PagseguroRetornoStatus.SUCESSO.name());
 	}
 
 	@Override

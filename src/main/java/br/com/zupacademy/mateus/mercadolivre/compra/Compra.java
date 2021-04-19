@@ -18,6 +18,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.Gateway;
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoRequest;
 import br.com.zupacademy.mateus.mercadolivre.compra.pagamento.Pagamento;
@@ -117,13 +120,25 @@ public class Compra {
 		return status;
 	}
 
-	public boolean addGatewayRetorno(@Valid GatewayRetornoRequest request) {
+	public List<Pagamento> getPagamentos() {
+		return pagamentos;
+	}
+	
+	public void addGatewayRetorno(@Valid GatewayRetornoRequest request) throws BindException {
+		Pagamento newPagamento = request.toModel(this);
 		for (Pagamento pagamento : pagamentos) {
-			if(pagamento.isSucedido())
-				return false;
+			if(pagamento.isSucedido()) {
+				BindException exception = new BindException(this, "compra");
+				exception.addError(new FieldError("compra", "status", "Já foi efetuado um pagamento sucedido para esta compra"));
+				throw exception;
+			}
+			else if(pagamento.getIdTransacao().equals(newPagamento.getIdTransacao())) {
+				BindException exception = new BindException(this, "compra");
+				exception.addError(new FieldError("compra", "idTransacao", "Id de transação duplicado para essa compra"));
+				throw exception;
+			}
 		}
-		pagamentos.add(request.toModel(this));
-		return true;
+		pagamentos.add(newPagamento);
 	}
 
 	@Override
