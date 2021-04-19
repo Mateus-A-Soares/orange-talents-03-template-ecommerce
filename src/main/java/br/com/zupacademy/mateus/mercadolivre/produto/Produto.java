@@ -65,7 +65,7 @@ public class Produto {
 	@NotNull
 	@ManyToOne(optional = false)
 	private Categoria categoria;
-	
+
 	@NotNull
 	@ManyToOne(optional = false)
 	private Usuario usuario;
@@ -74,13 +74,13 @@ public class Produto {
 	@Size(min = 3)
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private List<Caracteristica> caracteristicas;
-	
+
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private List<ImagemUrl> imagens;
-	
+
 	@OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
 	private List<Opiniao> opinioes;
-	
+
 	@OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
 	private List<Pergunta> perguntas;
 
@@ -95,13 +95,12 @@ public class Produto {
 	/**
 	 * Construtor que instancia um objeto {@link Produto}.
 	 * 
-	 * @param nome            nome do produto, obrigatório;
-	 * @param valor           valor do produto, obrigatório e positivo;
-	 * @param quantidade      quantidade do produto em estoque, obrigatório e não
-	 *                        pode ser negativa;
-	 * @param descricao       descrição do produto, obrigatória e até 1000
-	 *                        caracteres;
-	 * @param categoria       categoria do produto, obrigatória;
+	 * @param nome       nome do produto, obrigatório;
+	 * @param valor      valor do produto, obrigatório e positivo;
+	 * @param quantidade quantidade do produto em estoque, obrigatório e não pode
+	 *                   ser negativa;
+	 * @param descricao  descrição do produto, obrigatória e até 1000 caracteres;
+	 * @param categoria  categoria do produto, obrigatória;
 	 */
 	public Produto(@NotBlank String nome, @Positive @NotNull BigDecimal valor, @PositiveOrZero @NotNull Long quantidade,
 			@Size(max = 1000) @NotBlank String descricao, @NotNull Categoria categoria, @NotNull Usuario usuario) {
@@ -136,7 +135,7 @@ public class Produto {
 	public Categoria getCategoria() {
 		return categoria;
 	}
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -148,11 +147,11 @@ public class Produto {
 	public List<Caracteristica> getCaracteristicas() {
 		return caracteristicas;
 	}
-	
+
 	public List<ImagemUrl> getImagens() {
 		return imagens;
 	}
-	
+
 	public List<Opiniao> getOpinioes() {
 		return opinioes;
 	}
@@ -165,13 +164,17 @@ public class Produto {
 		this.caracteristicas = caracteristicas;
 		Assert.isTrue(this.caracteristicas.size() >= 3, "É necessário ao menos três características para o cadastro");
 	}
-	
+
 	public void linkImages(List<String> urls) {
-		this.imagens.addAll(urls.stream().map(urlString -> new ImagemUrl(this, urlString)).collect(Collectors.toList()));
+		this.imagens
+				.addAll(urls.stream().map(urlString -> new ImagemUrl(this, urlString)).collect(Collectors.toList()));
 	}
 
-	public void removeFromQuantidade(Integer quantidadeComprada) {
-		Assert.isTrue(quantidadeComprada <= quantidade, "Quantidade comprada deveria ser menor que a quantidade de itens em estoque.");
-		this.quantidade -= quantidadeComprada;
+	public boolean removeFromQuantidade(Integer quantidadeComprada) {
+		if (quantidadeComprada <= quantidade) {
+			this.quantidade -= quantidadeComprada;
+			return true;
+		}
+		return false;
 	}
 }

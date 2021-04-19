@@ -4,7 +4,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.Gateway;
 import br.com.zupacademy.mateus.mercadolivre.produto.Produto;
@@ -36,11 +35,7 @@ public class CompraRequest {
 	}
 	
 	public Compra toModel(@NotNull Usuario usuario, @NotNull Produto produto, @NotNull CompraStatus status) throws BindException {
-		if(produto.getQuantidade() < quantidade) {
-			BindException exception = new BindException(this, "compra");
-			exception.addError(new FieldError("compra", "quantidade", "Quantidade maior que o estoque"));
-			throw exception;
-		}
+		
 		return new Compra(usuario, produto, quantidade, produto.getValor(), gateway, status);
 	}
 }

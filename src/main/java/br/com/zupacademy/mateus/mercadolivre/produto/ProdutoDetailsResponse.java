@@ -22,6 +22,7 @@ public class ProdutoDetailsResponse {
 	private String nome;
 	private BigDecimal valor;
 	private String descricao;
+	private Long quantidade;
 	private List<OpiniaoResponse> opinioes;
 	private List<PerguntaResponse> perguntas;
 	private List<ImagemUrlResponse> imagens;
@@ -35,6 +36,7 @@ public class ProdutoDetailsResponse {
 		this.nome = produto.getNome();
 		this.valor = produto.getValor();
 		this.descricao = produto.getDescricao();
+		this.quantidade = produto.getQuantidade();
 		this.opinioes = opiniaoListToDto(produto.getOpinioes());
 		this.perguntas = perguntaListToDto(produto.getPerguntas());
 		this.imagens = imagemUrlListToModel(produto.getImagens());
@@ -50,6 +52,10 @@ public class ProdutoDetailsResponse {
 
 	public String getDescricao() {
 		return descricao;
+	}
+	
+	public Long getQuantidade() {
+		return quantidade;
 	}
 
 	public Double getMediaNotas() {
