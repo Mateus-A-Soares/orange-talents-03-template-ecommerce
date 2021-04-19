@@ -71,9 +71,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST, "/produtos/").authenticated()
-		.antMatchers(HttpMethod.PATCH, "/produtos/{id}/**").authenticated()
-		.anyRequest().permitAll()
+		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
+		.antMatchers(HttpMethod.POST, "/categorias").permitAll()
+		.antMatchers(HttpMethod.POST, "/retorno-gateway/**").permitAll()
+		.anyRequest().authenticated()
 		.and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
