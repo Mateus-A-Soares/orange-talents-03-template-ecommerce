@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.Compra;
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.pagseguro.PagseguroRetornoRequest;
+import br.com.zupacademy.mateus.mercadolivre.compra.gateway.paypal.PaypalRetornoRequest;
 
 /**
  * 
@@ -35,8 +36,9 @@ public class GatewayReturnController {
 	 * End-point de URL /retorno-gateway/pagseguro/{id} que só deve ser chamado após o gateway da PagSeguro efetuar o pagamento para uma compra.
 	 * 
 	 * @param compraId	id da compra realizada, presente na URL;
+	 * @param request	dados enviados pelo gateway, informando a compra e o status do pagamento;
 	 * @return ResponseEntity representando o status HTTP 200, 400 ou 500.
-	 * @throws BindException 
+	 * @throws BindException caso ocorra algum erro de validação relacionado a lista de tentativas de pagamentos da compra.
 	 */
 	@PostMapping("/pagseguro/{id}")
 	@Transactional
@@ -48,4 +50,24 @@ public class GatewayReturnController {
 		manager.merge(compra);
 		return ResponseEntity.ok(compra.toString());
 	}
+	
+	/**
+	 * End-point de URL /retorno-gateway/paypal/{id} que só deve ser chamado após o gateway da Paypal efetuar o pagamento para uma compra.
+	 * 
+	 * @param compraId	id da compra realizada, presente na URL;
+	 * @param request	dados enviados pelo gateway, informando a compra e o status do pagamento;
+	 * @return ResponseEntity representando o status HTTP 200, 400 ou 500.
+	 * @throws BindException caso ocorra algum erro de validação relacionado a lista de tentativas de pagamentos da compra. 
+	 */
+	@PostMapping("/paypal/{id}")
+	@Transactional
+	public ResponseEntity<String> retornoPaypal(@PathVariable("id") Long compraId, @Valid @RequestBody PaypalRetornoRequest request) throws BindException{
+		Compra compra = manager.find(Compra.class, compraId);
+		if (compra == null)
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra não encontrada");		
+		compra.addGatewayRetorno(request);
+		manager.merge(compra);
+		return ResponseEntity.ok(compra.toString());
+	}
+	
 }

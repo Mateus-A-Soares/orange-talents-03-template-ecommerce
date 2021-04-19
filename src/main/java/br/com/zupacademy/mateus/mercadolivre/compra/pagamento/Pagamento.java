@@ -32,7 +32,7 @@ public class Pagamento {
 	private LocalDateTime instante;
 	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(nullable = false, unique = false)
 	private String idTransacao;
 	
 	@NotNull
