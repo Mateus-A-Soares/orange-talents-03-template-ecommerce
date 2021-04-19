@@ -41,7 +41,7 @@ public class Compra {
 	private Long id;
 
 	@NotNull
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Usuario usuario;
 
 	@NotNull

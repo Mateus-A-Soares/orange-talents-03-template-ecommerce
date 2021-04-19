@@ -1,6 +1,8 @@
 package br.com.zupacademy.mateus.mercadolivre.compra.gateway.event;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoEvent;
 
@@ -15,6 +17,11 @@ public class AccessNotaFiscalSystemAfterGatewayReturnEvent extends GatewayRetorn
 
 	@Override
 	protected void successful() {
-		System.out.println("ACESSO AO SISTEMA DE NOTA FISCAL QUANDO A COMPRA FOI REALIZADA COM SUCESSO");
+		RestTemplate restTemplate = new RestTemplate();
+		String uri = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/fake/notasfiscais")
+        .queryParam("compraId", compra.getId())
+        .queryParam("usuarioId", compra.getUsuario().getId())
+        .toUriString();
+		restTemplate.getForEntity(uri, String.class);
 	}
 }

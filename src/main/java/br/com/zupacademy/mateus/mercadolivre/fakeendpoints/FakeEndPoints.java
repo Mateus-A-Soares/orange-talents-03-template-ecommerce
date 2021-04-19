@@ -1,6 +1,8 @@
 package br.com.zupacademy.mateus.mercadolivre.fakeendpoints;
 
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -9,15 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Mateus Soares
  */
 @RestController
+@RequestMapping("/fake")
 public class FakeEndPoints {
 	
-	@PostMapping("/rankingvendedores")
-	public void rankingVendedores(Long compraId, Long vendedorId) {
+	@GetMapping("/rankingvendedores")
+	public void rankingVendedores(@RequestParam("compraId") Long compraId,@RequestParam("vendedorId") Long vendedorId) {
 		System.out.println("ATUALIZANDO RANK DO VENDEDOR DE ID " + vendedorId);
 	}
 	
-	@PostMapping("/notasfiscais")
-	public void notasFiscais(Long compraId, Long usuarioId) {
+	@GetMapping("/notasfiscais")
+	public void notasFiscais(@RequestParam("compraId") Long compraId,@RequestParam("usuarioId") Long usuarioId) {
 		System.out.println("CRIANDO NOTA FISCAL PARA COMPRA DE ID " + compraId);
 	}
 }
