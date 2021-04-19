@@ -106,4 +106,10 @@ public class Compra {
 	public CompraStatus getStatus() {
 		return status;
 	}
+
+	@Override
+	public String toString() {
+		return "Compra [id=" + id + ", usuario=" + usuario + ", produto=" + produto + ", quantidade=" + quantidade
+				+ ", valorProduto=" + valorProduto + ", gateway=" + gateway + ", status=" + status + "]";
+	}
 }

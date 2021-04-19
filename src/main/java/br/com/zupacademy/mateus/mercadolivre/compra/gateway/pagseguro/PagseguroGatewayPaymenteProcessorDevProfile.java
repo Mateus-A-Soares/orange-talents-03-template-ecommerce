@@ -1,4 +1,4 @@
-package br.com.zupacademy.mateus.mercadolivre.compra.gateway;
+package br.com.zupacademy.mateus.mercadolivre.compra.gateway.pagseguro;
 
 import java.net.URI;
 
@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.Compra;
+import br.com.zupacademy.mateus.mercadolivre.compra.gateway.Gateway;
+import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayPaymentProcessor;
 
 /**
  * 
