@@ -1,10 +1,13 @@
 package br.com.zupacademy.mateus.mercadolivre.compra.gateway;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -31,6 +34,9 @@ public class GatewayReturnController {
 	
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Autowired
+	private List<GatewayRetornoEvent> events;
 
 	/**
 	 * End-point de URL /retorno-gateway/pagseguro/{id} que só deve ser chamado após o gateway da PagSeguro efetuar o pagamento para uma compra.
@@ -68,6 +74,7 @@ public class GatewayReturnController {
 		if (compra == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra não encontrada");		
 		compra.addGatewayRetorno(request);
+		events.forEach(event -> event.execute(compra));
 		manager.merge(compra);
 	}
 }
