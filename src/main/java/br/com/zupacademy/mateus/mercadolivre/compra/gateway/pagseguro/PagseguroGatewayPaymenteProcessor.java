@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.Compra;
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.Gateway;
@@ -24,12 +25,12 @@ public class PagseguroGatewayPaymenteProcessor extends GatewayPaymentProcessor {
 	}
 
 	@Override
-	public URI getReturnAddres(Compra compra, String redirectUrl) {
+	public URI getReturnAddres(Compra compra) {
 
-		return uriBuilder
+		return UriComponentsBuilder.newInstance()
                 .scheme("https").host(gatewayType.getBaseUrl())
                 .queryParam("returnId", compra.getId())
-                .queryParam("redirectUrl", redirectUrl)
+                .queryParam("redirectUrl", gatewayType.getRedirectUrl())
                 .build().encode().toUri();
 	}
 }

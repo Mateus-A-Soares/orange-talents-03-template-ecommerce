@@ -2,8 +2,6 @@ package br.com.zupacademy.mateus.mercadolivre.compra.gateway;
 
 import java.net.URI;
 
-import org.springframework.web.util.UriComponentsBuilder;
-
 import br.com.zupacademy.mateus.mercadolivre.compra.Compra;
 
 /**
@@ -14,8 +12,6 @@ import br.com.zupacademy.mateus.mercadolivre.compra.Compra;
  * @author Mateus Soares
  */
 public abstract class GatewayPaymentProcessor { 
-	
-	protected UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 
 	protected final Gateway gatewayType;
 
@@ -36,5 +32,5 @@ public abstract class GatewayPaymentProcessor {
 	 * @param redirectUri	rota de retorno do gateway, deve ser passado na URI;
 	 * @return {@link URI} de acesso ao gateway.
 	 */
-	public abstract URI getReturnAddres(Compra compra, String redirectUri);
+	public abstract URI getReturnAddres(Compra compra);
 }

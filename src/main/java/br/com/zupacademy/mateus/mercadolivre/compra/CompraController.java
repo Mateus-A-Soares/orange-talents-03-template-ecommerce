@@ -73,7 +73,7 @@ public class CompraController {
 			throw exception;
 		}
 		manager.persist(compra);
-		URI returnUri = compra.getGateway().processesPayment(compra, gatewayPaymentProcessors, "/");
+		URI returnUri = compra.getGateway().processesPayment(compra, gatewayPaymentProcessors);
 		mailSender.execute(produto.getUsuario().getLogin(), "COMPRA DE PRODUTO",
 							usuario.getLogin() + " quer comprar " + compra.getQuantidade() + " unidades do produto " + produto.getNome());
 		return ResponseEntity
