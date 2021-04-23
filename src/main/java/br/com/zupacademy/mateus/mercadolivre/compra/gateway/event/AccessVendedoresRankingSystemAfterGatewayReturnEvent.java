@@ -1,10 +1,10 @@
 package br.com.zupacademy.mateus.mercadolivre.compra.gateway.event;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoEvent;
+import br.com.zupacademy.mateus.mercadolivre.feignclient.RankingVendedoresClient;
 
 /**
  * 
@@ -15,13 +15,12 @@ import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoEvent;
 @Component
 public class AccessVendedoresRankingSystemAfterGatewayReturnEvent extends GatewayRetornoEvent {
 
+	@Autowired
+	private RankingVendedoresClient RankingVendedoresClient;
+
 	@Override
 	protected void successful() {
-		RestTemplate restTemplate = new RestTemplate();
-		String uri = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/fake/rankingvendedores")
-        .queryParam("compraId", compra.getId())
-        .queryParam("vendedorId", compra.getProduto().getUsuario().getId())
-        .toUriString();
-		restTemplate.getForEntity(uri, String.class);
-	}
+		
+		RankingVendedoresClient.rankingVendedores(compra.getId(), compra.getProduto().getUsuario().getId());
+	}	
 }

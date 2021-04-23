@@ -74,7 +74,7 @@ public class GatewayReturnController {
 		if (compra == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra não encontrada");		
 		compra.addGatewayRetorno(request);
-		events.forEach(event -> event.execute(compra));
 		manager.merge(compra);
+		events.forEach(event -> event.execute(compra));
 	}
 }

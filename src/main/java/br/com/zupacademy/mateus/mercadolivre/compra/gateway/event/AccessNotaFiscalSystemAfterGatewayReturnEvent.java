@@ -1,10 +1,9 @@
 package br.com.zupacademy.mateus.mercadolivre.compra.gateway.event;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoEvent;
+import br.com.zupacademy.mateus.mercadolivre.feignclient.NotaFiscalClient;
 
 /**
  * 
@@ -14,14 +13,13 @@ import br.com.zupacademy.mateus.mercadolivre.compra.gateway.GatewayRetornoEvent;
  */
 @Component
 public class AccessNotaFiscalSystemAfterGatewayReturnEvent extends GatewayRetornoEvent {
+	
+	@Autowired
+	private NotaFiscalClient notaFiscalClient;
 
 	@Override
 	protected void successful() {
-		RestTemplate restTemplate = new RestTemplate();
-		String uri = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/fake/notasfiscais")
-        .queryParam("compraId", compra.getId())
-        .queryParam("usuarioId", compra.getUsuario().getId())
-        .toUriString();
-		restTemplate.getForEntity(uri, String.class);
+		
+		notaFiscalClient.notasFiscais(compra.getId(), compra.getUsuario().getId());
 	}
 }
